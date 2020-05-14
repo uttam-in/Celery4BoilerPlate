@@ -1,0 +1,1 @@
+schedule_tasks = {'Availability': 'availability', 'ExcessInvcentory': 'excessinventory'}

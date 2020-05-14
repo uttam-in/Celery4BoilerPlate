@@ -1,0 +1,31 @@
+env creation:
+/opt/servers/python/sockenv/bin/virtualenv
+/opt/servers/python/sockenv/bin/virtualenv celeryenv
+
+PATH: /data/node/Celery
+VENV: /data/node/Celery/celeryenv/bin/celery --version
+
+Install Django:
+/data/node/Celery/celeryenv/bin/pip install -r requirements.txt
+/data/node/Celery/celeryenv/bin/django-admin startproject celeryapp
+
+
+/data/node/Celery/celeryenv/bin/python manage.py migrate
+/data/node/Celery/celeryenv/bin/python manage.py runserver 0:8071
+
+# admin
+user : admin
+Pwd : admin@2020
+
+chmod 777 -R celeryapp
+
+# Extentions
+/data/node/Celery/celeryenv/bin/pip install django-celery-results
+/data/node/Celery/celeryenv/bin/python manage.py migrate django_celery_results
+/data/node/Celery/celeryenv/bin/pip install django-celery-beat
+
+/data/node/Celery/celeryenv/bin/celery -A celeryapp worker -l info -n schedulerworker.%h
+/data/node/Celery/celeryenv/bin/celery -A celeryapp beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+/data/node/Celery/celeryenv/bin/python manage.py runserver 0:8071
+
+
