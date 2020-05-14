@@ -27,5 +27,5 @@ chmod 777 -R celeryapp
 /data/node/Celery/celeryenv/bin/celery -A celeryapp worker -l info -n schedulerworker.%h
 /data/node/Celery/celeryenv/bin/celery -A celeryapp beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
 /data/node/Celery/celeryenv/bin/python manage.py runserver 0:8071
-
+/data/node/Celery/celeryenv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/data/node/Celery/celeryapp/celeryapp.sock celeryapp.wsgi:application
 
